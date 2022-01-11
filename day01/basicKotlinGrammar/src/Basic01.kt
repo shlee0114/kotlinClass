@@ -1,4 +1,5 @@
 fun main() {
+    scopeFunction()
 }
 
 fun forTest(startNum: Int, loopCount: Int): Int {
@@ -148,5 +149,17 @@ fun scopeFunction() {
         it.add(5)
     }.apply {
         add(6)
+    }
+
+    test.map { it + 12 }.also {
+        println(it)
+    }.filter {
+        it > 13
+    }.also {
+        println(it)
+    }
+
+    test.filter { it > 3 }.also {
+        println(it)
     }
 }
