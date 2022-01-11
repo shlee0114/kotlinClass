@@ -1,5 +1,4 @@
 fun main() {
-    listTest()
 }
 
 fun forTest(startNum: Int, loopCount: Int): Int {
@@ -122,5 +121,32 @@ fun listTest() {
         add(34)
     }.forEach {
         println(it)
+    }
+}
+
+fun scopeFunction() {
+    val test = arrayListOf(1, 2, 3, 4)
+    test.run {
+        forEach {
+            println(it)
+        }
+    }
+
+    println()
+
+    println(
+        test.let {
+            it.forEach { value ->
+                println(value)
+            }
+            println()
+            "test"
+        }
+    )
+
+    test.also {
+        it.add(5)
+    }.apply {
+        add(6)
     }
 }
