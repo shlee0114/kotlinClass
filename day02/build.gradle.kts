@@ -17,6 +17,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.apache.commons:commons-lang3")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
