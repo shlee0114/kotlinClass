@@ -1,0 +1,8 @@
+
+allowed :
+  mapping : "/**"
+  header : "**"
+  origins : "localhost:3000"
+  methods : "*"
+  age : 1800
+  credentials : false
