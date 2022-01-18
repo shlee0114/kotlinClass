@@ -7,6 +7,7 @@ import com.example.basicspring.utils.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/table")
@@ -14,7 +15,11 @@ class TableController(
     private val _service: TableService
 ) {
     @GetMapping
-    fun tableList(@RequestParam page: PageRequest) =
+    fun tableList(
+        @RequestParam
+        @Valid
+        page: PageRequest
+    ) =
         ResponseEntity(
             ApiUtils(
                 data = page.run {
@@ -26,7 +31,11 @@ class TableController(
 
 
     @PostMapping
-    fun addTable(@RequestBody tableRequest: TableRequest) =
+    fun addTable(
+        @RequestBody
+        @Valid
+        tableRequest: TableRequest
+    ) =
         _service.addTable(tableRequest)
             .run {
                 ResponseEntity(
@@ -39,9 +48,12 @@ class TableController(
 
     @PutMapping("/{id}")
     fun updateTable(
-        @PathVariable("id") id: String,
-        @RequestBody tableRequest: TableRequest
-    )  =
+        @PathVariable("id")
+        id: String,
+        @RequestBody
+        @Valid
+        tableRequest: TableRequest
+    ) =
         _service.updateTable(tableRequest, id.toLong())
             .run {
                 ResponseEntity(
@@ -54,9 +66,11 @@ class TableController(
 
     @DeleteMapping("/{id}/{password}")
     fun deleteTable(
-        @PathVariable("id") id: String,
-        @PathVariable("password") password: String
-    )  =
+        @PathVariable("id")
+        id: String,
+        @PathVariable("password")
+        password: String
+    ) =
         _service.deleteTable(id.toLong())
             .run {
                 ResponseEntity(
