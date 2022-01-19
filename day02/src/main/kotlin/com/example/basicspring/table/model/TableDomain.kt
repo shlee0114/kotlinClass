@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 
-@Entity(name = "table")
+@Entity(name = "notice")
 data class TableDomain(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
