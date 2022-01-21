@@ -5,10 +5,11 @@ import com.example.basicspring.utils.ErrorMessage
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import javax.validation.ConstraintViolationException
+
 
 @ControllerAdvice
 class ErrorExceptionHandler {
@@ -27,12 +28,16 @@ class ErrorExceptionHandler {
     fun customErrorHandler(e : CustomException): ResponseEntity<ApiUtils> =
         newResponse(e, e.status)
 
-    @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class, MethodArgumentNotValidException::class, ConstraintViolationException::class)
+    @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class)
     fun badRequestHandler(e: RuntimeException): ResponseEntity<ApiUtils> =
         newResponse(e, HttpStatus.BAD_REQUEST)
 
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun badRequestBindHandler(e: BindException): ResponseEntity<ApiUtils> =
+        newResponse(e.bindingResult.fieldError!!.defaultMessage, HttpStatus.BAD_REQUEST)
+
     @ExceptionHandler(NoSuchElementException::class)
-    fun notFoundHandler(e: RuntimeException): ResponseEntity<ApiUtils> =
+    fun notFoundHandler(e: NoSuchElementException): ResponseEntity<ApiUtils> =
         newResponse(e, HttpStatus.NOT_FOUND)
 
     @ExceptionHandler(RuntimeException::class)
