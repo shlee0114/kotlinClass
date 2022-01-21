@@ -21,7 +21,7 @@ enum class ErrorMessage {
 
     companion object {
         fun getErrorMessage(message: String): ApiUtils {
-            val messageEncoding = message.split("!@#")
+            val messageEncoding = message.split("#@!")
             val errorCode =
                 try {
                     valueOf(messageEncoding[0])
