@@ -43,7 +43,7 @@ class TableController(
                     ApiUtils(
                         data = TableResultDto()
                     ),
-                    HttpStatus.OK
+                    HttpStatus.CREATED
                 )
             }
 
