@@ -59,9 +59,10 @@ class TableController(
             .run {
                 ResponseEntity(
                     ApiUtils(
-                        data = TableResultDto()
+                        data =
+                        TableResultDto(success(), message())
                     ),
-                    HttpStatus.OK
+                    status()
                 )
             }
 
@@ -77,9 +78,10 @@ class TableController(
             .run {
                 ResponseEntity(
                     ApiUtils(
-                        data = TableResultDto()
+                        data =
+                        TableResultDto(success(), message())
                     ),
-                    HttpStatus.OK
+                    status()
                 )
             }
 }
