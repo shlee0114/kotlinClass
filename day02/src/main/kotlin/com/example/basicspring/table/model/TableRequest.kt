@@ -7,7 +7,7 @@ import javax.validation.constraints.Size
 data class TableRequest(
     @field:NotBlank(message = "INVALID_VALUE#@!writer")
     @field:Size(min = 2, max = 10, message = "OUT_OF_RANGE#@!writer!@#2 ~ 10")
-    @field:Pattern(regexp = "[a-zA-Z1-9ㄱ-ㅎ가-힣]{2,10}", message = "INVALID_FORMAT#@!writer!@#한글, 숫자, 영어")
+    @field:Pattern(regexp = "[a-zA-Z1-9ㄱ-ㅎ가-힣]*", message = "INVALID_FORMAT#@!writer!@#한글, 숫자, 영어")
     val writer: String = "",
 
     @field:NotBlank(message = "INVALID_VALUE#@!title")
