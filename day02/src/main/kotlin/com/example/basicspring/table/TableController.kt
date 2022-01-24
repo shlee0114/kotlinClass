@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
+import javax.validation.constraints.NotBlank
 
 @RestController
 @RequestMapping("/table")
@@ -64,11 +65,12 @@ class TableController(
                 )
             }
 
-    @DeleteMapping("/{id}/{password}")
+    @DeleteMapping("/{id}")
     fun deleteTable(
         @PathVariable("id")
         id: String,
-        @PathVariable("password")
+        @RequestParam("password")
+        @NotBlank(message = "INVALID_VALUE#@!password")
         password: String
     ) =
         _service.deleteTable(id.toLong())
