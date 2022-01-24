@@ -5,4 +5,6 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TableRepository : PagingAndSortingRepository<TableDomain, Long>
+interface TableRepository : PagingAndSortingRepository<TableDomain, Long> {
+    fun existsBySeqAndPassword(seq: Long, password: String) : Boolean
+}
