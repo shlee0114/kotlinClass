@@ -94,7 +94,7 @@ class TableTest {
             "{\"writer\" : \"test1\", \"title\" : \"test1\", \"content\" : \"test1\", \"password\" : \"test2\"}"
         )
             .andDo(print())
-            .andExpect(status().isCreated)
+            .andExpect(status().isForbidden)
             .andExpect(jsonPath("$.success", `is`(false)))
             .andExpect(jsonPath("$.data.reason", `is`("패스워드가 일치하지 않습니다")))
             .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
@@ -114,7 +114,7 @@ class TableTest {
     fun tableDelete_returnReason_fail() {
         doDelete("/table/1/test1")
             .andDo(print())
-            .andExpect(status().isOk)
+            .andExpect(status().isForbidden)
             .andExpect(jsonPath("$.success", `is`(false)))
             .andExpect(jsonPath("$.data.reason", `is`("패스워드가 일치하지 않습니다")))
             .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
