@@ -73,7 +73,7 @@ class TableController(
         @NotBlank(message = "INVALID_VALUE#@!password")
         password: String
     ) =
-        _service.deleteTable(id.toLong())
+        _service.deleteTable(id.toLong(), password)
             .run {
                 ResponseEntity(
                     ApiUtils(

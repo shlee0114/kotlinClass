@@ -24,9 +24,30 @@ class TableService(
 
     @Transactional
     fun updateTable(tableRequest: TableRequest, seq: Long) =
-        _repository.save(TableDomain(tableRequest, seq))
+        checkIsExists(seq, tableRequest.password)
+            .also {
+                if (it == TableTypeEnum.SUCCESS)
+                    _repository.save(TableDomain(tableRequest, seq))
+            }
 
     @Transactional
-    fun deleteTable(seq: Long) =
-        _repository.deleteById(seq)
+    fun deleteTable(seq: Long, password: String) =
+        checkIsExists(seq, password)
+            .also {
+                if (it == TableTypeEnum.SUCCESS)
+                    _repository.deleteById(seq)
+            }
+
+    fun checkIsExists(seq: Long, password: String) =
+        _repository.existsById(seq)
+            .takeIf { it }?.run {
+                _repository.existsBySeqAndPassword(seq, password)
+                    .takeIf { it }?.run {
+                        TableTypeEnum.SUCCESS
+                    } ?: run {
+                    TableTypeEnum.WRONG_PASSWORD
+                }
+            } ?: run {
+            TableTypeEnum.NOT_FOUND
+        }
 }
