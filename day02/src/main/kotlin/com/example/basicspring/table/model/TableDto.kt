@@ -13,6 +13,6 @@ data class TableDto(
 }
 
 data class TableResultDto(
-    val success : Boolean = true,
+    val result : Boolean = true,
     val reason: String = ""
 )
