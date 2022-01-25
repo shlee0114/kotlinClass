@@ -18,6 +18,16 @@ class TableService(
                 TableDto(it)
             }
 
+    @Transactional(readOnly = true)
+    fun getDetail(seq: Long) =
+        _repository.existsById(seq)
+            .takeIf { it }?.run {
+                TableDto(
+                    _repository.findById(seq)
+                        .get()
+                )
+            }
+
     @Transactional
     fun addTable(tableRequest: TableRequest) =
         _repository.save(TableDomain(tableRequest))

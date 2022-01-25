@@ -31,6 +31,20 @@ class TableController(
             HttpStatus.OK
         )
 
+    @GetMapping("/{id}")
+    fun tableDetail(
+        @PathVariable("id")
+        id: String
+    ) =
+        _service.getDetail(id.toLong())?.run {
+            ResponseEntity(
+                ApiUtils(
+                    data = this
+                ),
+                HttpStatus.OK
+            )
+        } ?: throw NoSuchElementException("INVALID_VALUE#@!$id")
+
 
     @PostMapping
     fun addTable(
