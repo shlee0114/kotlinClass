@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
+import org.junit.jupiter.api.Order
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,8 +32,9 @@ class TableTest {
     }
 
     @Test
+    @Order(1)
     fun tableList_returnTableList_success() {
-        doGet("/table/")
+        doGet("/table")
             .andDo(print())
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.success", `is`(true)))
@@ -41,6 +43,7 @@ class TableTest {
     }
 
     @Test
+    @Order(2)
     fun tableInfo_returnTableInfo_success() {
         doGet("/table/1")
             .andDo(print())
@@ -53,6 +56,7 @@ class TableTest {
     }
 
     @Test
+    @Order(3)
     fun tableAdd_returnTrue_success() {
         doPost(
             "/table",
@@ -66,13 +70,14 @@ class TableTest {
     }
 
     @Test
+    @Order(4)
     fun tableUpdate_returnTrue_success() {
         doPut(
             "/table/1",
             "{\"writer\" : \"test1\", \"title\" : \"test1\", \"content\" : \"test1\", \"password\" : \"test\"}"
         )
             .andDo(print())
-            .andExpect(status().isCreated)
+            .andExpect(status().isOk)
             .andExpect(jsonPath("$.success", `is`(true)))
             .andExpect(jsonPath("$.data.result", `is`(true)))
             .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
@@ -88,6 +93,7 @@ class TableTest {
     }
 
     @Test
+    @Order(5)
     fun tableUpdate_returnReason_fail() {
         doPut(
             "/table/1",
@@ -95,14 +101,16 @@ class TableTest {
         )
             .andDo(print())
             .andExpect(status().isForbidden)
-            .andExpect(jsonPath("$.success", `is`(false)))
+            .andExpect(jsonPath("$.success", `is`(true)))
+            .andExpect(jsonPath("$.data.result", `is`(false)))
             .andExpect(jsonPath("$.data.reason", `is`("패스워드가 일치하지 않습니다")))
             .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
     }
 
     @Test
+    @Order(999)
     fun tableDelete_returnTrue_success() {
-        doDelete("/table/1/test")
+        doDelete("/table/1", "password=test")
             .andDo(print())
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.success", `is`(true)))
@@ -111,22 +119,26 @@ class TableTest {
     }
 
     @Test
+    @Order(7)
     fun tableDelete_returnReason_fail() {
-        doDelete("/table/1/test1")
+        doDelete("/table/1", "password=test1")
             .andDo(print())
             .andExpect(status().isForbidden)
-            .andExpect(jsonPath("$.success", `is`(false)))
+            .andExpect(jsonPath("$.success", `is`(true)))
+            .andExpect(jsonPath("$.data.result", `is`(false)))
             .andExpect(jsonPath("$.data.reason", `is`("패스워드가 일치하지 않습니다")))
             .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
     }
 
     @Test
+    @Order(8)
     fun tableInfo_throwException_NotFound() {
         doGet("/table/999")
             .checkIsError(status().isNotFound, ErrorMessage.INVALID_VALUE, "999")
     }
 
     @Test
+    @Order(9)
     fun tableAdd_throwException_InvalidValue() {
         doPost(
             "/table",
@@ -151,6 +163,7 @@ class TableTest {
     }
 
     @Test
+    @Order(10)
     fun tableUpdate_throwException_invalidValue() {
         doPut(
             "/table/1",
@@ -175,6 +188,7 @@ class TableTest {
     }
 
     @Test
+    @Order(12)
     fun tableAdd_throwException_invalidFormat() {
         doPost(
             "/table",
@@ -220,6 +234,7 @@ class TableTest {
     }
 
     @Test
+    @Order(13)
     fun tableUpdate_throwException_invalidFormat() {
         doPut(
             "/table/1",
@@ -279,7 +294,7 @@ class TableTest {
 
     fun doGet(uri: String, param: String = "") =
         _mockMvc.perform(
-            get("$uri$param")
+            get("$uri?$param")
                 .accept(MediaType.APPLICATION_JSON)
         )
 
@@ -291,9 +306,9 @@ class TableTest {
                 .content(body)
         )
 
-    fun doDelete(uri: String) =
+    fun doDelete(uri: String, param: String = "") =
         _mockMvc.perform(
-            delete(uri)
+            delete("$uri?$param")
                 .accept(MediaType.APPLICATION_JSON)
         )
 
