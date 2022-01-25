@@ -30,7 +30,7 @@ class TableService(
 
     @Transactional
     fun updateTable(tableRequest: TableRequest, seq: Long) =
-        checkIsExists(seq, tableRequest.password)
+        checkIsExists(seq, tableRequest.password ?: "none")
             .also {
                 if (it == TableTypeEnum.SUCCESS)
                     _repository.save(TableDomain(tableRequest, seq))

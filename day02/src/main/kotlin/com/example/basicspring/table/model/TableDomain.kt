@@ -16,18 +16,18 @@ data class TableDomain(
     val password: String
 ) {
     constructor(tableRequest: TableRequest) : this(
-        writer = tableRequest.writer,
+        writer = tableRequest.writer ?: "none",
         title = tableRequest.title,
         content = tableRequest.content,
-        password = tableRequest.password
+        password = tableRequest.password ?: "none"
     )
 
     constructor(tableRequest: TableRequest, seq: Long) : this(
         seq = seq,
-        writer = tableRequest.writer,
+        writer = tableRequest.writer ?: "none",
         title = tableRequest.title,
         content = tableRequest.content,
-        password = tableRequest.password
+        password = tableRequest.password ?: "none"
     )
 
     override fun equals(other: Any?) = super.equals(other)
