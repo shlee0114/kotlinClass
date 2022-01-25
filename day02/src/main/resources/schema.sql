@@ -9,5 +9,3 @@ CREATE TABLE notice
     updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (seq)
 );
-
-INSERT INTO notice (writer, title, content, password) VALUES ('test', 'test', 'test', 'test')
