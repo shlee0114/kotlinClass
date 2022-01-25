@@ -33,6 +33,20 @@ class TableTest {
 
     @Test
     @Order(1)
+    fun tableAdd_returnTrue_success() {
+        doPost(
+            "/table",
+            "{\"writer\" : \"test\", \"title\" : \"test\", \"content\" : \"test\", \"password\" : \"test\"}"
+        )
+            .andDo(print())
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.success", `is`(true)))
+            .andExpect(jsonPath("$.data.result", `is`(true)))
+            .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
+    }
+
+    @Test
+    @Order(2)
     fun tableList_returnTableList_success() {
         doGet("/table")
             .andDo(print())
@@ -43,7 +57,7 @@ class TableTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     fun tableInfo_returnTableInfo_success() {
         doGet("/table/1")
             .andDo(print())
@@ -52,20 +66,6 @@ class TableTest {
             .andExpect(jsonPath("$.data.writer", `is`("test")))
             .andExpect(jsonPath("$.data.title", `is`("test")))
             .andExpect(jsonPath("$.data.content", `is`("test")))
-            .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
-    }
-
-    @Test
-    @Order(3)
-    fun tableAdd_returnTrue_success() {
-        doPost(
-            "/table",
-            "{\"writer\" : \"test\", \"title\" : \"test\", \"content\" : \"test\", \"password\" : \"test\"}"
-        )
-            .andDo(print())
-            .andExpect(status().isCreated)
-            .andExpect(jsonPath("$.success", `is`(true)))
-            .andExpect(jsonPath("$.data.result", `is`(true)))
             .andExpect(jsonPath("$.error", `is`(IsNull.nullValue())))
     }
 
