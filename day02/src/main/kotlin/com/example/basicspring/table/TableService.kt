@@ -17,6 +17,12 @@ class TableService(
             .map {
                 TableDto(it)
             }
+    @Transactional(readOnly = true)
+    fun getList() =
+        _repository.findAll()
+            .map {
+                TableDto(it)
+            }
 
     @Transactional
     fun addTable(tableRequest: TableRequest) =
