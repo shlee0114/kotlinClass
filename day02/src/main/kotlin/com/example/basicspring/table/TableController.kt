@@ -18,15 +18,14 @@ class TableController(
     @GetMapping
     fun tableList(
         @RequestParam(required = false)
-        @Valid
         page: PageRequest?
     ) =
         ResponseEntity(
             ApiUtils(
                 data = page?.run {
                     _service.getPagingList(pageNum, size)
-                } ?: run {
-                    _service.getList()
+                } ?: PageRequest().run {
+                    _service.getPagingList(pageNum, size)
                 }
             ),
             HttpStatus.OK

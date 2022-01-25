@@ -13,13 +13,7 @@ class TableService(
 ) {
     @Transactional(readOnly = true)
     fun getPagingList(pageNum: Int, size: Int) =
-        _repository.findAll(PageRequest.of(pageNum, size))
-            .map {
-                TableDto(it)
-            }
-    @Transactional(readOnly = true)
-    fun getList() =
-        _repository.findAll()
+        _repository.findAll(PageRequest.of(pageNum, size)).content
             .map {
                 TableDto(it)
             }
