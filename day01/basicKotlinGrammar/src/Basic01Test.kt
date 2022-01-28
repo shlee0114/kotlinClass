@@ -1,4 +1,6 @@
+
 fun main() {
+    println(test3())
 }
 
 fun test1() {
@@ -29,4 +31,22 @@ fun test2() =
             it > 5
         }.run {
             get(2)
+        }
+
+fun test3() =
+    arrayListOf<Int>()
+        .apply {
+            for (i in 0..(10..20).random())
+                add((30 .. 100).random())
+        }.also {
+            println(it)
+        }.filter {
+            it >= 50
+        }.map {
+            when (it) {
+                in 90..100 -> "A"
+                in 80 until 90 -> "B"
+                in 70 until 80 -> "C"
+                else -> "D"
+            }
         }
