@@ -1,6 +1,8 @@
 fun main() {
-    scopeFunction()
+    arrayLit()
 }
+
+val test2 = 1
 
 fun forTest(startNum: Int, loopCount: Int): Int {
     var start = startNum
@@ -19,7 +21,7 @@ fun forTest(startNum: Int, loopCount: Int): Int {
 
     start = startNum
 
-    for(i in loopCount downTo 0) {
+    for (i in loopCount downTo 0) {
         start += startNum
         println("$i : $start")
     }
@@ -30,18 +32,18 @@ fun forTest(startNum: Int, loopCount: Int): Int {
 fun forTestStep(startNum: Int, loopCount: Int, step: Int) {
     var start = startNum
 
-    for(i in 0 .. loopCount step(step)) {
+    for (i in 0..loopCount step (step)) {
         start += startNum
         println("$i : $start")
     }
 }
 
 fun forTest2(array: Array<Int>) {
-    for(i in array) {
+    for (i in array) {
         println(i)
     }
 
-    for(i in array.indices) {
+    for (i in array.indices) {
         println(i)
     }
 
@@ -105,10 +107,10 @@ fun whenTestFinal(test: Int) =
 
 fun listTest() {
     //고정 길이
-    arrayOf(1,32,1,55,23)
+    arrayOf(1, 32, 1, 55, 23)
 
     //가변길이
-    arrayListOf(1,432,13).apply {
+    arrayListOf(1, 432, 13).apply {
         add(12)
         set(0, 12)
     }.forEach {
@@ -117,7 +119,7 @@ fun listTest() {
 
     println()
 
-    mutableListOf(1,32,53,63).apply {
+    mutableListOf(1, 32, 53, 63).apply {
         set(0, 32)
         add(34)
     }.forEach {
@@ -161,5 +163,79 @@ fun scopeFunction() {
 
     test.filter { it > 3 }.also {
         println(it)
+    }
+}
+
+fun ArrayList<Int>.test() {
+
+}
+
+fun test(test: Int, test2: Int = 3) {
+
+}
+
+fun mapTest(test: Int) =
+    mapOf<String, Any>(
+        when (test) {
+            1 -> "test" to 1
+            2 -> "test" to 2
+            3 -> Pair("test", 3)
+            4 -> "test" to intArrayOf(1, 2, 3)
+            else -> "test" to "else"
+        }
+    )
+
+
+fun solution(nums: IntArray): Int {
+    var answer = 0
+    for (i in nums.indices) {
+        for (j in i + 1 until nums.size) {
+            for (h in j + 1 until nums.size) {
+                if ((nums[i] + nums[j] + nums[h]).isPrime())
+                    answer++
+            }
+        }
+    }
+    return answer
+}
+
+fun Int.isPrime(index: Int = 2) : Boolean =
+    if (index * index <= this)
+        isPrime(index + 1)
+    else this % index != 0
+
+data class test(
+    val index: Int,
+    val value: String
+)
+class test123{
+    fun arrayLit() {
+        println(setOf(1,2,3,4,1, 2, 3,5))
+        mapOf(1 to 2, 2 to 3, 1 to 3, 1 to 4).keys
+        val mapTest = mapOf(1 to 2, 3 to 5, 4 to 6)
+        val testArray = arrayListOf(test(1, "test"), test(2, "test4"), test(2, "test3"), test(2, "test2"))
+        val tes2 = arrayOf(5,3,1,4)
+        testArray.associate { it.index to it.value }
+        arrayOf(1,2,3).associateWith { "test" }
+
+        tes2.sortedDescending()
+        tes2.map{
+            print(it)
+        }
+        println()
+        tes2.sortDescending()
+        tes2.map{
+            print(it)
+        }
+        println()
+        val etsty3123 = etsty3()
+        testArray.sortedByDescending { it.value }
+        testArray.sortWith(compareBy(etsty3123::sortCompare))
+        testArray.toSortedSet(compareBy{it.index})
+    }
+}
+class etsty3{
+    fun sortCompare(test: test) : Comparable<test> {
+
     }
 }

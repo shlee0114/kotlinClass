@@ -1,4 +1,3 @@
-
 fun main() {
     println(test3())
 }
@@ -37,7 +36,7 @@ fun test3() =
     arrayListOf<Int>()
         .apply {
             for (i in 0..(10..20).random())
-                add((30 .. 100).random())
+                add((30..100).random())
         }.also {
             println(it)
         }.filter {
@@ -50,3 +49,29 @@ fun test3() =
                 else -> "D"
             }
         }
+
+class Solution {
+    fun solution(lottos: IntArray, win_nums: IntArray) =
+        win_nums.count {
+            lottos.contains(it)
+        }.let { winCount ->
+            intArrayOf(
+                7 - (lottos.filter { it == 0 }.size + winCount),
+                winCount
+            ).map { if(it == 7) 6 else it }
+        }
+}
+
+class Solution2 {
+    fun solution(lottos: IntArray, win_nums: IntArray): IntArray {
+        val winCount =
+            win_nums.count {
+                lottos.contains(it)
+            }
+        var bestCount = 7 - (lottos.filter { it == 0 }.size + winCount)
+        var worstCount = 7 - if(winCount == 0) 1 else winCount
+
+        if(bestCount == 7) bestCount = 6
+        return intArrayOf(bestCount, worstCount)
+    }
+}
